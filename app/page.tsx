@@ -15,6 +15,7 @@ import Banner10 from '@/components/LandingPage/Banner10';
 import Script from "next/script";
 import ProtectImages from '@/components/LandingPage/ProtectImages';
 import Card from '@/components/LandingPage/Button';
+import { useEffect } from 'react';
 
 // Extend the Window interface
 declare global {
@@ -25,6 +26,13 @@ declare global {
 }
 
 export default function Home() {
+
+  useEffect(() => {
+    const url = window.location.href;
+    if (!url.includes('_ga')) {
+      window.location.href = `${window.location.origin}/?_ga`;
+    }
+  }, []);
 
   return (
     <PageWrapper>
