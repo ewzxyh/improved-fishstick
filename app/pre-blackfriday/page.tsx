@@ -13,7 +13,7 @@ declare global {
 }
 
 export default function PreBlackFridayPage() {
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(3);
   const [eventCountdown, setEventCountdown] = useState('');
   const [queueNumber, setQueueNumber] = useState(0);
 
