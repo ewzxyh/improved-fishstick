@@ -62,8 +62,8 @@ export default function PreBlackFridayPage() {
 
   return (
     <>
-          {/* Load analytics.js */}
-          <Script
+      {/* Load analytics.js */}
+      <Script
         async
         src="https://www.google-analytics.com/analytics.js"
         strategy="beforeInteractive"
@@ -87,6 +87,7 @@ export default function PreBlackFridayPage() {
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+          gtag('event', 'conversion', {'send_to': 'AW-16733205759/aBu8CJqOsd0ZEP_pgas-'});
           gtag('js', new Date());
           gtag('config', 'AW-16733205759', {
             'linker': {
@@ -95,23 +96,23 @@ export default function PreBlackFridayPage() {
           });
         `}
       </Script>
-    <div className="flex justify-center items-center h-screen bg-[#1b1b1b]">
-      <div className="bg-[#fd1a1a] p-8 text-center rounded-3xl">
-        <h1 className="text-[2em]">Outlet - Pré Black Friday</h1>
-        <div className="text-lg pt-4">
-          Você está na <strong>FILA</strong> para participar, você será
-          redirecionado em grupo em: <strong>{countdown}</strong> segundos...
-        </div>
-        <div className="pt-4 text-lg">
-          <strong>Somente até 20/10/2024:</strong> {eventCountdown}
-          <br />
-          ou enquanto o estoque durar.
-        </div>
-        <div className="pt-4 text-lg">
-          Número de pessoas na fila: <strong>{queueNumber}</strong>
+      <div className="flex justify-center items-center h-screen bg-[#1b1b1b]">
+        <div className="bg-[#fd1a1a] p-8 text-center rounded-3xl">
+          <h1 className="text-[2em]">Outlet - Pré Black Friday</h1>
+          <div className="text-lg pt-4">
+            Você está na <strong>FILA</strong> para participar, você será
+            redirecionado em grupo em: <strong>{countdown}</strong> segundos...
+          </div>
+          <div className="pt-4 text-lg">
+            <strong>Somente até 20/10/2024:</strong> {eventCountdown}
+            <br />
+            ou enquanto o estoque durar.
+          </div>
+          <div className="pt-4 text-lg">
+            Número de pessoas na fila: <strong>{queueNumber}</strong>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

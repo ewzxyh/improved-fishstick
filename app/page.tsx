@@ -61,6 +61,7 @@ export default function Home() {
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+          gtag('event', 'conversion', {'send_to': 'AW-16733205759/aBu8CJqOsd0ZEP_pgas-'});
           gtag('js', new Date());
           gtag('config', 'AW-16733205759', {
             'linker': {

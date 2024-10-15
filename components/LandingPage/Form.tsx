@@ -12,6 +12,7 @@ import Script from 'next/script';
 // Extend the Window interface
 declare global {
   interface Window {
+    gtag?: (...args: any[]) => void; // Corrigido: Declaração do gtag
     ga?: any;
   }
 }
@@ -34,7 +35,7 @@ const Form: React.FC = () => {
     let timer: NodeJS.Timeout;
     if (!isModalVisible) {
       timer = setTimeout(() => {
-      setIsModalVisible(true);
+        setIsModalVisible(true);
       }, 1500); // 1,5 segundos em milissegundos
     }
 
@@ -77,35 +78,35 @@ const Form: React.FC = () => {
           setTimeout(checkTrackerAndRedirect, 100); // Retry after 100ms
         }
       };
-  
+
       checkTrackerAndRedirect();
     } else {
       alert('Por favor, insira um e-mail válido e confirme os termos.');
     }
   };
-        {/* Load analytics.js */}
-        <Script
-        async
-        src="https://www.google-analytics.com/analytics.js"
-        strategy="beforeInteractive"
-      />
-      {/* Initialize analytics.js and enable the linker plugin */}
-      <Script id="analytics-init" strategy="afterInteractive">
-        {`
+  {/* Load analytics.js */ }
+  <Script
+    async
+    src="https://www.google-analytics.com/analytics.js"
+    strategy="beforeInteractive"
+  />
+  {/* Initialize analytics.js and enable the linker plugin */ }
+  <Script id="analytics-init" strategy="afterInteractive">
+    {`
           ga('create', 'AW-16733205759', 'auto');
           ga('require', 'linker');
           ga('linker:autoLink', ['linhasuper2.com', 'pre-blackfriday.linhasuper2.com']);
         `}
-      </Script>
-      {/* Load gtag.js */}
-      <Script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=AW-16733205759"
-        strategy="afterInteractive"
-      />
-      {/* Configure gtag.js */}
-      <Script id="gtag-config" strategy="afterInteractive">
-        {`
+  </Script>
+  {/* Load gtag.js */ }
+  <Script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=AW-16733205759"
+    strategy="afterInteractive"
+  />
+  {/* Configure gtag.js */ }
+  <Script id="gtag-config" strategy="afterInteractive">
+    {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
@@ -115,7 +116,24 @@ const Form: React.FC = () => {
             }
           });
         `}
-      </Script>
+  </Script>
+
+  // Função do snippet de conversão
+  const gtag_report_conversion = (url?: string) => {
+    const callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location.href = url; // Corrigido para window.location.href
+      }
+    };
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-16733205759/aBu8CJqOsd0ZEP_pgas-',
+        'event_callback': callback
+      });
+    }
+    return false;
+  };
+
   return (
     isModalVisible && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#300808] bg-opacity-[85%]">
@@ -174,6 +192,7 @@ const Form: React.FC = () => {
           <Button
             type="submit"
             disabled={!emailValido || !isChecked} // Botão desabilitado se o email for inválido ou o checkbox não estiver marcado
+            onClick={() => gtag_report_conversion('https://pre-blackfriday.linhasuper2.com')} // Chamando a função no botão
             className="
                 w-full
                 bg-[#000]
@@ -190,7 +209,7 @@ const Form: React.FC = () => {
           </Button>
           {/* Aviso */}
           <p className="text-white text-center text-sm mt-4">
-            Promoção válida até 20/10 ou<br/>enquanto durarem os estoques.
+            Promoção válida até 20/10 ou<br />enquanto durarem os estoques.
           </p>
         </form>
       </div>
